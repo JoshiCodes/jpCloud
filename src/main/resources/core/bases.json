@@ -1,0 +1,6 @@
+{
+  "AllowedIPs": "All allowed IPs. Other will be blocked. Seperate with ';'  //COMMENT, PLEASE EDIT NEXT LINE",
+  "AllowedIPs": "127.0.0.1;YourIpHere",
+  "Bases": "Only edit if you know what you do!  //COMMENT",
+  "Bases": [ ]
+}
