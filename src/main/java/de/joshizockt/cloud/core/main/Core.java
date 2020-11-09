@@ -8,6 +8,7 @@ import de.joshizockt.cloud.core.utils.CoreCommandManager;
 import de.joshizockt.cloud.api.Logger;
 import de.joshizockt.cloud.core.utils.CoreMessenger;
 import de.joshizockt.cloud.core.utils.CoreServerManager;
+import de.joshizockt.cloud.core.utils.MessengerType;
 
 public class Core {
 
@@ -41,11 +42,9 @@ public class Core {
 
         IdManager.init();
 
-        serverManager.registerBaseObject(new BaseObject("Base-1", "127.0.0.1"));
+        messenger = new CoreMessenger();
 
         commandManager.loadCommands();
-
-        messenger = new CoreMessenger();
 
     }
 

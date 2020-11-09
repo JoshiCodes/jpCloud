@@ -5,6 +5,9 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
 import java.io.*;
 import java.net.URL;
 import java.nio.file.Files;
@@ -218,10 +221,14 @@ public class CloudConfig {
         }
 
         try (FileWriter writer = new FileWriter(ext)) {
-            writer.write(json.toJSONString());
+            ScriptEngineManager manager = new ScriptEngineManager();
+            ScriptEngine scriptEngine = manager.getEngineByName("JavaScript");
+            scriptEngine.put("jsonString", json.toJSONString());
+            scriptEngine.eval("result = JSON.stringify(JSON.parse(jsonString), null, 2)");
+            writer.write((String)scriptEngine.get("result"));
             writer.flush();
             return true;
-        } catch (IOException e) {
+        } catch (IOException | ScriptException e) {
             e.printStackTrace();
         }
         return false;

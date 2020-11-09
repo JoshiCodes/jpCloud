@@ -3,6 +3,7 @@ package de.joshizockt.cloud;
 import de.joshizockt.cloud.base.main.Base;
 import de.joshizockt.cloud.core.main.Core;
 import de.joshizockt.cloud.api.Logger;
+import de.joshizockt.cloud.core.utils.MessengerType;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -24,8 +25,9 @@ public class Main {
                 "      | $$| $$____/  \\______/ |__/ \\______/  \\______/  \\_______/\r\n" +
                 " /$$  | $$| $$                                                  \r\n" +
                 "|  $$$$$$/| $$                                                  \r\n" +
-                " \\______/ |__/                                                  \r\n" +
-                " \n \njpCloud 2 created by JoshiZockt_");
+                " \\______/ |__/                                                  \r");
+
+        Logger.log("jpCloud 2 created by JoshiZockt_ \n \n ");
 
         String wrongArg = "Wrong Argument! Please type: \n" +
                           "[1]     CORE \n" +
@@ -33,9 +35,9 @@ public class Main {
                           "";
 
         if(args.length >= 1) {
-            if(args[0].equalsIgnoreCase("--TYPE=CORE")) {
+            if(args[0].equalsIgnoreCase("TYPE=CORE")) {
                 Core.start(args);
-            } else if(args[0].equalsIgnoreCase("--TYPE=BASE")) {
+            } else if(args[0].equalsIgnoreCase("TYPE=BASE")) {
                 Base.start(args);
             } else {
                 Logger.err(wrongArg);
