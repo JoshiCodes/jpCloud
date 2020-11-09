@@ -1,8 +1,4 @@
 {
-  "Host": "The Hostname, where the Base connect to",
   "Host": "127.0.0.1",
-  "Port": "The Port of the Core",
-  "Port": 5001,
-  "BasePort": "The Port of the Base",
-  "BasePort": 4901
+  "Port": 5001
 }

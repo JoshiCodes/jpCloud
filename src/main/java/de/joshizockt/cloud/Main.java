@@ -39,6 +39,7 @@ public class Main {
                 Base.start(args);
             } else {
                 Logger.err(wrongArg);
+                return;
             }
         } else {
             Logger.err(wrongArg);
@@ -55,10 +56,11 @@ public class Main {
                         Base.start(args);
                     } else {
                         Logger.err(wrongArg);
+                        return;
                     }
                 }
 
-            } catch(Exception ex) { Logger.err(ex.getMessage()); }
+            } catch(Exception ex) { Logger.err(ex.getMessage()); return; }
         }
 
     }

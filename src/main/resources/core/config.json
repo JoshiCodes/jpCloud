@@ -1,4 +1,3 @@
 {
-  "Port": "(Integer) The Core Port, where the Base(s) connect with.  //COMMENT, PLEASE EDIT NEXT LINE",
   "Port": 5001
 }

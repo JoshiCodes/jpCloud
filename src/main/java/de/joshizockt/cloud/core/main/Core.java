@@ -1,28 +1,28 @@
 package de.joshizockt.cloud.core.main;
 
-import Networking.manager.TcpManager;
 import de.joshizockt.cloud.api.CloudConfig;
 import de.joshizockt.cloud.api.IdManager;
-import de.joshizockt.cloud.api.groups.BaseObject;
+import de.joshizockt.cloud.api.serverobject.BaseObject;
 import de.joshizockt.cloud.core.commands.CoreHelpCommand;
 import de.joshizockt.cloud.core.utils.CoreCommandManager;
 import de.joshizockt.cloud.api.Logger;
+import de.joshizockt.cloud.core.utils.CoreMessenger;
 import de.joshizockt.cloud.core.utils.CoreServerManager;
 
 public class Core {
-
-    private static TcpManager tcpManager;
 
     private static CoreServerManager serverManager;
     private static CoreCommandManager commandManager;
 
     private static CloudConfig config;
 
+    public static CoreMessenger messenger;
+
     public static void start(String[] args) throws Exception {
 
         Logger.log("Starting CORE");
 
-        config = new CloudConfig("config.json", "core");
+        config = new CloudConfig("config.json", "core", true);
 
         if(!config.fileExists() || !config.valueExists("Port")) {
             Logger.err("Error while loading Core config.");
@@ -30,7 +30,6 @@ public class Core {
         }
 
         int port = config.getInteger("Port");
-        tcpManager = new TcpManager(port);
 
         commandManager = new CoreCommandManager();
         serverManager = new CoreServerManager();
@@ -42,10 +41,11 @@ public class Core {
 
         IdManager.init();
 
-        serverManager.registerBaseObject(new BaseObject("testBase", IdManager.gen()).setRam(1024));
+        serverManager.registerBaseObject(new BaseObject("Base-1", "127.0.0.1"));
 
-        tcpManager.startCore();
         commandManager.loadCommands();
+
+        messenger = new CoreMessenger();
 
     }
 

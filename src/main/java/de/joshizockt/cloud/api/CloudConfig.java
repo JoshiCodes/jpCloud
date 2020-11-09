@@ -22,7 +22,11 @@ public class CloudConfig {
 
     private JSONObject object;
 
-    public CloudConfig(String config, String folder) throws Exception {
+    public CloudConfig(String config, String folder) {
+        this(config, folder, false);
+    }
+
+    public CloudConfig(String config, String folder, boolean copyDefaults) {
         ClassLoader classLoader = getClass().getClassLoader();
         this.folder = new File(folder);
         this.folder.mkdirs();
@@ -30,16 +34,24 @@ public class CloudConfig {
         this.file = new File(res.getFile());
         this.ext = new File(folder + "/" + config);
 
+        this.object = readJson();
+
+        if(copyDefaults) {
+            copyDefaults();
+        }
+
+    }
+
+    public boolean copyDefaults() {
         if(!ext.exists()) {
             try (InputStream in = res.openStream()) {
                 Files.copy(in, ext.toPath());
+                return true;
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-
-        this.object = readJson();
-
+        return false;
     }
 
     /**
@@ -80,6 +92,7 @@ public class CloudConfig {
      * @return String
      * @see this.get(String);
      */
+    @Nullable
     public String getString(String key) {
         Object ob = get(key);
         if(ob != null) {
@@ -205,7 +218,7 @@ public class CloudConfig {
         }
 
         try (FileWriter writer = new FileWriter(ext)) {
-            writer.write(json.toString());
+            writer.write(json.toJSONString());
             writer.flush();
             return true;
         } catch (IOException e) {

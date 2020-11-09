@@ -3,7 +3,7 @@ package de.joshizockt.cloud.core.utils;
 import com.sun.istack.internal.Nullable;
 import de.joshizockt.cloud.api.CloudConfig;
 import de.joshizockt.cloud.api.Logger;
-import de.joshizockt.cloud.api.groups.BaseObject;
+import de.joshizockt.cloud.api.serverobject.BaseObject;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -17,7 +17,7 @@ public class CoreServerManager {
     private CloudConfig config;
 
     public CoreServerManager() throws Exception {
-        config = new CloudConfig("bases.json", "core");
+        config = new CloudConfig("bases.json", "core", true);
     }
 
     public List<String> getAllowedIPs() {
@@ -35,15 +35,16 @@ public class CoreServerManager {
             Object o = i.next();
             if(o instanceof JSONObject) {
                 JSONObject j = (JSONObject)o;
-                if(((String)j.get("Name")).equals(object.getName()) || ((String)j.get("ID")).equals(object.getId())) {
+                if((j.get("Name")).equals(object.getName())) {
                     return false;
                 }
             }
         }
         JSONObject json = new JSONObject();
-        json.put("ID", object.getId());
+        //json.put("ID", object.getId());
         json.put("Name", object.getName());
-        json.put("Ram", object.getRam());
+        json.put("Host", object.getHost());
+        //json.put("Ram", object.getRam());
         bases.add(json);
         config.set("Bases", bases);
         return true;
@@ -58,7 +59,7 @@ public class CoreServerManager {
         return bases;
     }
 
-    public List<BaseObject> getBases() {
+    /*public List<BaseObject> getBases() {
         List<BaseObject> objects = new ArrayList<>();
         JSONArray array = getBasesArray();
         Iterator i = array.iterator();
@@ -97,6 +98,6 @@ public class CoreServerManager {
             }
         }
         return null;
-    }
+    }*/
 
 }

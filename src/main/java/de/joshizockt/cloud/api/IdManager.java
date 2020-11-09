@@ -20,7 +20,7 @@ public class IdManager {
 
     public static void init() {
 
-        ids = new ArrayList<>();
+        if(ids == null) ids = new ArrayList<>();
 
         CloudConfig bc = Core.getServerManager().getConfig();
         JSONArray bcA = bc.getArray("Bases");
