@@ -25,7 +25,7 @@ public class Main {
                 " /$$  | $$| $$                                                  \r\n" +
                 "|  $$$$$$/| $$                                                  \r\n" +
                 " \\______/ |__/                                                  \r\n" +
-                "");
+                " \n \njpCloud 2 created by JoshiZockt_");
 
         String wrongArg = "Wrong Argument! Please type: \n" +
                           "[1]     CORE \n" +
