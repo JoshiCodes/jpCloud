@@ -1,5 +1,6 @@
 package de.joshizockt.cloud.base.main;
 
+import de.joshizockt.cloud.api.CloudColor;
 import de.joshizockt.cloud.api.CloudConfig;
 import de.joshizockt.cloud.api.Logger;
 
@@ -11,14 +12,12 @@ public class Base {
 
     public static void start(String[] args) throws Exception {
 
-        Logger.log("Starting BASE-1");
-
         config = new CloudConfig("config.json", "base", true);
         if(config.get("Key") == null) {
             config.set("Key", genKey());
         }
 
-        Logger.log("Started BASE-1");
+        Logger.log(CloudColor.GREEN + "Successfull started this BASE.");
 
         // KEEP THE BASE ALIVE
         Thread.currentThread().join();
@@ -33,7 +32,7 @@ public class Base {
         String abc = "abcdefghijklmnopqrstuvwxyz";
         String numbers = "0123456789";
         String key = "";
-        for(int i = 0; i < 20; i++) {
+        for(int i = 0; i < 40; i++) {
             if(ThreadLocalRandom.current().nextInt(1, 2+1) == 1) {
                 key = key + abc.charAt(ThreadLocalRandom.current().nextInt(0, abc.length()));
             } else key = key + numbers.charAt(ThreadLocalRandom.current().nextInt(0, numbers.length()));

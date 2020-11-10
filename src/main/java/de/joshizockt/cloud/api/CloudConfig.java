@@ -37,11 +37,11 @@ public class CloudConfig {
         this.file = new File(res.getFile());
         this.ext = new File(folder + "/" + config);
 
-        this.object = readJson();
-
         if(copyDefaults) {
             copyDefaults();
         }
+
+        this.object = readJson();
 
     }
 

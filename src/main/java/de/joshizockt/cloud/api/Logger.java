@@ -11,7 +11,7 @@ public class Logger {
 		LocalDateTime now = LocalDateTime.now();
 		
 		
-		System.out.println("[" + dtf.format(now) + "] " + arg);
+		System.out.println("[" + dtf.format(now) + "] " + CloudColor.GREEN + arg + CloudColor.RESET);
 	}
 	
 	public static void err(String err) {
@@ -20,7 +20,7 @@ public class Logger {
 		LocalDateTime now = LocalDateTime.now();
 		
 		
-		System.out.println("[" + dtf.format(now) + "] [ERROR] " + err);
+		System.out.println("[" + dtf.format(now) + "] " + CloudColor.RED_BOLD + "[ERROR] " + CloudColor.RESET + CloudColor.RED + err + CloudColor.RESET);
 	}
 	
 	public static void warn(String warn) {
@@ -29,7 +29,7 @@ public class Logger {
 		LocalDateTime now = LocalDateTime.now();
 		
 		
-		System.out.println("[" + dtf.format(now) + "] [WARNING] " + warn);
+		System.out.println("[" + dtf.format(now) + "] " + CloudColor.YELLOW_BOLD + "[WARNING] " + CloudColor.RESET + CloudColor.YELLOW + warn + CloudColor.RESET);
 	}
 
 }

@@ -2,6 +2,7 @@ package de.joshizockt.cloud.core.main;
 
 import de.joshizockt.cloud.api.CloudConfig;
 import de.joshizockt.cloud.api.IdManager;
+import de.joshizockt.cloud.api.plugin.CloudPluginLoader;
 import de.joshizockt.cloud.api.serverobject.BaseObject;
 import de.joshizockt.cloud.core.commands.CoreHelpCommand;
 import de.joshizockt.cloud.core.utils.CoreCommandManager;
@@ -18,6 +19,8 @@ public class Core {
     private static CloudConfig config;
 
     public static CoreMessenger messenger;
+
+    private static CloudPluginLoader pluginLoader;
 
     public static void start(String[] args) throws Exception {
 
@@ -44,6 +47,8 @@ public class Core {
 
         messenger = new CoreMessenger();
 
+        pluginLoader = new CloudPluginLoader();
+
         commandManager.loadCommands();
 
     }
@@ -54,6 +59,10 @@ public class Core {
 
     public static CoreServerManager getServerManager() {
         return serverManager;
+    }
+
+    public static CloudConfig getConfig() {
+        return config;
     }
 
 }
