@@ -1,12 +1,13 @@
 package de.joshizockt.cloud.core.utils;
 
-import com.sun.istack.internal.Nullable;
 import de.joshizockt.cloud.api.CloudConfig;
 import de.joshizockt.cloud.api.Logger;
 import de.joshizockt.cloud.api.serverobject.BaseObject;
+import de.joshizockt.cloud.api.serverobject.ServerType;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -15,39 +16,34 @@ import java.util.List;
 public class CoreServerManager {
 
     private CloudConfig config;
+    private List<BaseObject> bases;
 
     public CoreServerManager() throws Exception {
         config = new CloudConfig("bases.json", "core", true);
+        bases = new ArrayList<>();
     }
 
     public List<String> getAllowedIPs() {
         String[] args = config.getString("AllowedIPs").split(";");
-        for(String ip : args) {
-            Logger.warn(ip);
-        }
         return Arrays.asList(args);
     }
 
-    public boolean registerBaseObject(BaseObject object) {
-        JSONArray bases = getBasesArray();
-        Iterator i = bases.iterator();
-        while(i.hasNext()) {
-            Object o = i.next();
-            if(o instanceof JSONObject) {
-                JSONObject j = (JSONObject)o;
-                if((j.get("Name")).equals(object.getName())) {
-                    return false;
-                }
+    public void registerBaseObject(BaseObject object) {
+        JSONArray a = getBasesArray();
+        JSONObject o = new JSONObject();
+        o.put("Name", object.getName());
+        o.put("IP", object.getIp());
+        a.add(o);
+        config.set("Bases", a);
+    }
+
+    public boolean isLegalBase(String host) {
+        for(BaseObject base : getBases()) {
+            if(base.getIp().equals(host)) {
+                return true;
             }
         }
-        JSONObject json = new JSONObject();
-        //json.put("ID", object.getId());
-        json.put("Name", object.getName());
-        json.put("Host", object.getHost());
-        //json.put("Ram", object.getRam());
-        bases.add(json);
-        config.set("Bases", bases);
-        return true;
+        return false;
     }
 
     public CloudConfig getConfig() {
@@ -55,49 +51,35 @@ public class CoreServerManager {
     }
 
     private JSONArray getBasesArray() {
-        JSONArray bases = config.getArray("Bases");
+        return config.getArray("Bases");
+    }
+
+    public void updateBases() throws UnknownHostException {
+        bases = new ArrayList<>();
+        bases.clear();
+        JSONArray a = getBasesArray();
+        Iterator i = a.iterator();
+
+        while(i.hasNext()) {
+            JSONObject o = (JSONObject) i.next();
+            String name = (String) o.get("Name");
+            String ip = (String) o.get("IP");
+            BaseObject b = new BaseObject(name).setIp(ip);
+            bases.add(b);
+        }
+    }
+
+    public List<BaseObject> getBases() {
         return bases;
     }
 
-    /*public List<BaseObject> getBases() {
-        List<BaseObject> objects = new ArrayList<>();
-        JSONArray array = getBasesArray();
-        Iterator i = array.iterator();
-        while(i.hasNext()) {
-            Object o = i.next();
-            if(o instanceof JSONObject) {
-                JSONObject j = (JSONObject)o;
-                String id = (String)j.get("ID");
-                String name = (String)j.get("Name");
-                BaseObject base = new BaseObject(name, id);
-                if(j.get("Ram") != null) {
-                    base.setRam(Integer.parseInt(String.valueOf(j.get("Ram"))));
-                }
-                objects.add(base);
-                Logger.log("Registered BASE " + base.getAbsoluteName());
-            }
-        }
-        return objects;
-    }
+    public void execute(JSONObject o) {
 
-    @Nullable
-    public BaseObject getBaseByName(String name) {
-        for(BaseObject o : getBases()) {
-            if(o.getName().equalsIgnoreCase(name)) {
-                return o;
-            }
-        }
-        return null;
-    }
+        ServerType type = ServerType.valueOf((String)o.get("servertype"));
+        ServerAction action = ServerAction.valueOf((String)o.get("action"));
+        String servername = (String)o.get("servername");
+        System.out.println("Yippieh: " + action.name() + " / " + servername + "(" + type + ")");
 
-    @Nullable
-    public BaseObject getBaseById(String id) {
-        for(BaseObject o : getBases()) {
-            if(o.getId().equalsIgnoreCase(id)) {
-                return o;
-            }
-        }
-        return null;
-    }*/
+    }
 
 }

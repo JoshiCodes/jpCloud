@@ -47,7 +47,7 @@ public class IdManager {
                 id = id + abc.charAt(ThreadLocalRandom.current().nextInt(0, abc.length()));
             } else id = id + numbers.charAt(ThreadLocalRandom.current().nextInt(0, numbers.length()));
         }
-        if(!exists(id)) return id;
+        if(!exists(id)) { ids.add(id); return id; }
         else return gen(lenght);
     }
 

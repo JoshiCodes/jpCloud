@@ -4,17 +4,16 @@ import com.sun.istack.internal.NotNull;
 import jdk.nashorn.internal.objects.annotations.Constructor;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class CoreCommand {
 
-    private List<String> commands;
-    private String usage;
-
-    protected String[] args;
+    private final List<String> commands;
+    private final String usage;
 
     public CoreCommand(String desc, String command) {
-        this.commands = Arrays.asList(command);
+        this.commands = Collections.singletonList(command);
         this.usage = desc;
     };
 
@@ -23,13 +22,7 @@ public class CoreCommand {
         this.usage = desc;
     };
 
-    public void execute() {};
-
-    @Deprecated
-    public void fire(String[] args) {
-        this.args = args;
-        execute();
-    }
+    public void execute(String label, String[] args) {};
 
     public List<String> getCommands() {
         return commands;

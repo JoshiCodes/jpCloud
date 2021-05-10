@@ -5,13 +5,19 @@ import de.joshizockt.cloud.api.event.CloudEvent;
 
 public class CloudServerEvent extends CloudEvent {
 
-    ServerObject server;
+    private ServerObject server;
 
-    public CloudServerEvent(ServerObject server) {
-        this.server = server;
+    public CloudServerEvent(ServerObject object) {
+        this(object, false);
     }
-    public CloudServerEvent(ServerObject server, boolean cancelabel) {
-        super(cancelabel); this.server = server;
+
+    public CloudServerEvent(ServerObject object, boolean cancelable) {
+        super(true);
+        this.server = object;
+    }
+
+    public ServerObject getServer() {
+        return server;
     }
 
 }

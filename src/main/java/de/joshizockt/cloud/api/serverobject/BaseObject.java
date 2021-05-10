@@ -1,12 +1,19 @@
 package de.joshizockt.cloud.api.serverobject;
 
-public class BaseObject extends ServerObject {
-    String host;
-    public BaseObject(String name, String host) {
-        super(name, BASE);
-        this.host = host;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
+public class BaseObject extends GlobalServerObject {
+    String ip;
+    public BaseObject(String name) throws UnknownHostException {
+        super(name, ServerType.BASE, null);
+        this.ip = InetAddress.getLocalHost().getHostAddress();
     }
-    public String getHost() {
-        return host;
+    public BaseObject setIp(String ip) {
+        this.ip = ip;
+        return this;
+    }
+    public String getIp() {
+        return ip;
     }
 }

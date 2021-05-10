@@ -36,7 +36,7 @@ public class Main {
 
         if(args.length >= 1) {
             if(args[0].equalsIgnoreCase("TYPE=CORE")) {
-                Core.start(args);
+                new Core(args);
             } else if(args[0].equalsIgnoreCase("TYPE=BASE")) {
                 Base.start(args);
             } else {
@@ -52,7 +52,7 @@ public class Main {
                 while((line = reader.readLine()) != null) {
                     if(line.equalsIgnoreCase("1")) {
                         reader.close();
-                        Core.start(args);
+                        new Core(args);
                     } else if(line.equalsIgnoreCase("2")) {
                         reader.close();
                         Base.start(args);

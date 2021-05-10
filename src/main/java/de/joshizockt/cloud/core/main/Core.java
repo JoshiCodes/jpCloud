@@ -2,16 +2,22 @@ package de.joshizockt.cloud.core.main;
 
 import de.joshizockt.cloud.api.CloudConfig;
 import de.joshizockt.cloud.api.IdManager;
+import de.joshizockt.cloud.api.event.CloudEventManager;
+import de.joshizockt.cloud.api.event.server.CloudServerStartEvent;
 import de.joshizockt.cloud.api.plugin.CloudPluginLoader;
 import de.joshizockt.cloud.api.serverobject.BaseObject;
 import de.joshizockt.cloud.core.commands.CoreHelpCommand;
+import de.joshizockt.cloud.core.commands.KeyAddCommand;
 import de.joshizockt.cloud.core.utils.CoreCommandManager;
 import de.joshizockt.cloud.api.Logger;
 import de.joshizockt.cloud.core.utils.CoreMessenger;
 import de.joshizockt.cloud.core.utils.CoreServerManager;
-import de.joshizockt.cloud.core.utils.MessengerType;
+import de.joshizockt.cloud.networking.NetworkManager;
+import de.joshizockt.cloud.networking.NetworkType;
 
 public class Core {
+
+    private static Core instance;
 
     private static CoreServerManager serverManager;
     private static CoreCommandManager commandManager;
@@ -22,7 +28,11 @@ public class Core {
 
     private static CloudPluginLoader pluginLoader;
 
-    public static void start(String[] args) throws Exception {
+    private static NetworkManager networkManager;
+
+    public Core(String[] args) throws Exception {
+
+        instance = this;
 
         Logger.log("Starting CORE");
 
@@ -39,9 +49,9 @@ public class Core {
         serverManager = new CoreServerManager();
 
         commandManager.addCommand(new CoreHelpCommand());
+        commandManager.addCommand(new KeyAddCommand());
 
         Logger.log("CORE was successfull started.");
-
 
         IdManager.init();
 
@@ -49,8 +59,16 @@ public class Core {
 
         pluginLoader = new CloudPluginLoader();
 
+        networkManager = new NetworkManager(NetworkType.CORE_SERVER);
+
+        networkManager.startServer(port);
+
         commandManager.loadCommands();
 
+    }
+
+    public static Core getInstance() {
+        return instance;
     }
 
     public static CoreCommandManager getCommandManager() {
